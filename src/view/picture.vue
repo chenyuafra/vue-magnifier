@@ -1,19 +1,23 @@
 <template>
-
   <div class="outer_box">
-    给图片添加，点击旋转、放大、缩小、拖动的效果
-    <!-- 因为旋转是在中心点旋转的,而放大缩小是在左上角 -->
-    <!-- 所以给图片的父元素加上放大缩小 -->
-    <!-- 给图片加上旋转 -->
+    <p>给图片添加，点击旋转、放大、缩小、拖动的效果</p>
     <div class="demobox">
       <div class="img_box" ref="imgDiv" :style="{transform:'scale('+multiples+')',transformOrigin:+origintop+'%'+originleft+'%'}  "
         @mousewheel.prevent="rollImg">
-        <img :src="imgSrc" ref="img" alt="" :style="{transform:'rotateZ('+deg+'deg)',transformOrigin:'50% 50%',}"
-          @mousedown="down">
+        <img :src="imgSrc" ref="img" alt="" :style="{transform:'rotateZ('+deg+'deg)',transformOrigin:'50% 50%',top:+movetop+'px',left:+moveleft+'px',}"
+          @mousedown="down" @mouseup="mouup" @mousemove="move">
       </div>
     </div>
-    <div class="small">
-      <img v-for="item,i in imgbox" :src="item.smallimg" @click="enlarge(item)">
+    <div class="thumbnail">
+      <span class="thumbnail-left" @click="slideFront()">
+        '-'
+      </span>
+      <div class="thumbnail-box">
+        <div class="thumbnail-img" :style="{width:+imgbox.length*100+'px',left: +thumbnailPosition +'px',}">
+          <img v-for="item,i in imgbox" :src="item.smallimg" @click="enlarge(item)">
+        </div>
+      </div>
+      <span class="thumbnail-right" @click="slideNext()"> > </span>
     </div>
     <div class="bottom">
       <!-- 点击时旋转90度 -->
@@ -35,6 +39,12 @@
         multiples: 1,
         origintop: 50,
         originleft: 50,
+        thumbnailPosition: 0,
+        ifDrag: false,
+        x0:0,
+        y0:0,
+        movetop:0,
+        moveleft:0,
         imgbox: [{
             id: '1',
             smallimg: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3035979662,3987018636&fm=26&gp=0.jpg',
@@ -62,6 +72,16 @@
           },
         ]
       }
+    },
+    props: ['ImgData'],
+    // 模板渲染前钩子函数
+    created() {
+
+    },
+    // 模板渲染后钩子函数
+    mounted() {
+      // console.log(this.ImgData)
+      this.imgbox = this.ImgData
     },
     methods: {
       // 放大
@@ -95,48 +115,49 @@
       },
       // 拖动图片
       down(e) {
-        e.preventDefault()
-        // 获取元素
-        var left = document.querySelector('.img_box')
-        var img = document.querySelector('.img_box img')
-        var x = e.pageX - img.offsetLeft
-        var y = e.pageY - img.offsetTop
-        // 添加鼠标移动事件
-        left.addEventListener('mousemove', move)
-
-        function move(e) {
-          img.style.left = e.pageX - x + 'px'
-          img.style.top = e.pageY - y + 'px'
+        this.ifDrag = true
+        this.x0=e.offsetX
+        this.y0=e.offsetY
+      },
+      mouup(e) {
+        this.ifDrag = false
+      },
+      move(e) {
+        if (this.ifDrag) {
+          e.preventDefault()
+          this.moveleft+=e.offsetX-this.x0
+          this.movetop+=e.offsetY-this.y0
         }
-        // 添加鼠标抬起事件，鼠标抬起，将事件移除
-        img.addEventListener('mouseup', function() {
-          left.removeEventListener('mousemove', move)
-        })
-        // 鼠标离开父级元素，把事件移除
-        left.addEventListener('mouseout', function() {
-          left.removeEventListener('mousemove', move)
-        })
+
       },
       enlarge(item) {
-        var img = document.querySelector('.img_box img')
-        img.style.left = '0px',
-          img.style.top = '0px',
+          this.movetop=0,
+          this.moveleft=0,
           this.deg = 0,
           this.multiples = 1,
           this.imgSrc = item.bigimg
+      },
+      // 左右切换
+      slideFront() {
+        this.thumbnailPosition += 100
+        if (this.thumbnailPosition >= 0) {
+          this.thumbnailPosition = 0
+        }
+
+      },
+      slideNext() {
+        this.thumbnailPosition -= 100
+        if (this.thumbnailPosition <= 340 - (this.imgbox.length * 100)) {
+          this.thumbnailPosition = 340 - (this.imgbox.length * 100)
+        }
       }
     }
   }
 </script>
 <style scoped>
   .outer_box {
-    width: 400px;
-  }
-
-  .outer_box>div {
-    white-space: nowrap;
-    display: inline-block;
-    position: relative;
+    width: 100%;
+    background-color: #A9BFD6;
   }
 
   .img_box img {
@@ -144,45 +165,66 @@
     max-height: 400px;
     cursor: move;
     position: absolute;
+  }
+
+  .demobox {
+    display: hidden;
+    width: 400px;
+    height: 400px;
+    overflow: hidden;
+    background-color: #EDEDED;
+    margin: 0 auto;
+  }
+
+  .thumbnail {
+    white-space: nowrap;
+    width: 340px;
+    height: 100px;
+    text-align: left;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0 30px;
+    position: relative;
+  }
+
+  .thumbnail-box {
+    width: 340px;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .thumbnail-img {
+    position: absolute;
+    top: 0;
+    transition: 0.5s;
+  }
+
+  .thumbnail-img img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .thumbnail-left,
+  .thumbnail-right {
+    width: 30px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+    position: absolute;
+    z-index: 9;
+    cursor: pointer;
+    user-select: none;
+    background-color: #EDEDED;
+  }
+
+  .thumbnail-left {
     top: 0;
     left: 0;
   }
 
-  .demobox {
-    width: 400px;
-    height: 400px;
-    overflow: hidden;
-    background-color: yellow;
-  }
-
-  .small {
-    width: 400px;
-    text-align: left;
-    overflow-x: auto;
-  }
-
-  /*滚动条整体样式*/
-  .small::-webkit-scrollbar {
-    width: 1px;
-    height: 6px;
-  }
-
-  /*滚动条里面小方块*/
-  .small::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: #535353;
-  }
-
-  /*滚动条里面轨道*/
-  .small::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    background: #ededed;
-  }
-
-  .small img {
-    width: 100px;
-    height: 100px;
+  .thumbnail-right {
+    top: 0;
+    right: 0;
   }
 </style>
