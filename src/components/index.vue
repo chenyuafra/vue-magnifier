@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-
+    <p>1111111</p>
+    <router-view></router-view>
   </div>
 </template>
 <script>
