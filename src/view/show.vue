@@ -5,6 +5,8 @@
     </div>
     <div class="right">
       <Picture :ImgData="imgbox2"></Picture>
+<!--      <count-down :currentTime="form.appraisalDetailBaseVo.nowDate *1" :startTime="form.appraisalDetailBaseVo.nowDate *1"
+        :endTime="form.appraisalDetailBaseVo.expirationDate *1"></count-down> -->
     </div>
   </div>
 </template>

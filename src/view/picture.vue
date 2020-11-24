@@ -5,7 +5,7 @@
       <div class="img_box" ref="imgDiv" :style="{transform:'scale('+multiples+')',transformOrigin:+origintop+'%'+originleft+'%'}  "
         @mousewheel.prevent="rollImg">
         <img :src="imgSrc" ref="img" alt="" :style="{transform:'rotateZ('+deg+'deg)',transformOrigin:'50% 50%',top:+movetop+'px',left:+moveleft+'px',}"
-          @mousedown="down" @mouseup="mouup" @mousemove="move">
+          @mousedown="down" @mouseup="mouup" @mousemove="move" @mouseleave="mouup">
       </div>
     </div>
     <div class="thumbnail">
@@ -41,10 +41,10 @@
         originleft: 50,
         thumbnailPosition: 0,
         ifDrag: false,
-        x0:0,
-        y0:0,
-        movetop:0,
-        moveleft:0,
+        x0: 0,
+        y0: 0,
+        movetop: 0,
+        moveleft: 0,
         imgbox: [{
             id: '1',
             smallimg: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3035979662,3987018636&fm=26&gp=0.jpg',
@@ -116,8 +116,8 @@
       // 拖动图片
       down(e) {
         this.ifDrag = true
-        this.x0=e.offsetX
-        this.y0=e.offsetY
+        this.x0 = e.offsetX
+        this.y0 = e.offsetY
       },
       mouup(e) {
         this.ifDrag = false
@@ -125,14 +125,14 @@
       move(e) {
         if (this.ifDrag) {
           e.preventDefault()
-          this.moveleft+=e.offsetX-this.x0
-          this.movetop+=e.offsetY-this.y0
+          this.moveleft += e.offsetX - this.x0
+          this.movetop += e.offsetY - this.y0
         }
 
       },
       enlarge(item) {
-          this.movetop=0,
-          this.moveleft=0,
+        this.movetop = 0,
+          this.moveleft = 0,
           this.deg = 0,
           this.multiples = 1,
           this.imgSrc = item.bigimg
