@@ -1,6 +1,19 @@
 <template>
   <div class="container">
-    <p>1111111</p>
+    <div class="title">
+      <router-link to='/imgenlarge'>
+        <p>放大镜</p>
+      </router-link>
+      <!-- <router-link to='/show'> -->
+      <p>倒计时</p>
+      <!-- </router-link> -->
+      <router-link to='/lrvalue'>
+      <p>父子传值</p>
+      </router-link>
+      <router-link to='/show'>
+      <p>图片</p>
+      </router-link>
+    </div>
     <router-view></router-view>
   </div>
 </template>
@@ -26,4 +39,16 @@
   }
 </script>
 <style scoped>
+  .title {
+    width: 100%;
+    height: 50px;
+    background-color: #EDEDED;
+    line-height: 50px;
+  }
+
+  .title p {
+    display: inline-block;
+    min-width: 80px;
+
+  }
 </style>
