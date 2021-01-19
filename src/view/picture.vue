@@ -18,7 +18,7 @@
         </div>
       </div>
       <span class="thumbnail-right" @click="slideNext()"> > </span>
-    </div>
+    </div>r
     <div class="bottom">
       <!-- 点击时旋转90度 -->
       <button @click="magnify">放大</button>

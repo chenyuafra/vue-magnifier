@@ -4,14 +4,17 @@
       <router-link to='/imgenlarge'>
         <p>放大镜</p>
       </router-link>
-      <!-- <router-link to='/show'> -->
+      <router-link to='/show'>
       <p>倒计时</p>
-      <!-- </router-link> -->
+      </router-link>
       <router-link to='/lrvalue'>
-      <p>父子传值</p>
+        <p>父子传值</p>
       </router-link>
       <router-link to='/show'>
-      <p>图片</p>
+        <p>图片</p>
+      </router-link>
+      <router-link to='/calc'>
+        <p>计算</p>
       </router-link>
     </div>
     <router-view></router-view>

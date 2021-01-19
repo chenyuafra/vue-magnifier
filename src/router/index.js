@@ -5,6 +5,7 @@ import ImgEnlarge from '@/view/img-enlarge.vue'
 import Picture from '@/view/picture.vue'
 import Show from '@/view/show.vue'
 import Lrvalue from '@/view/lrvalue/index.vue'
+import Calc from '@/view/calc.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -31,6 +32,10 @@ export default new Router({
       path: '/lrvalue',
       name: 'Lrvalue',
       component: Lrvalue
+    },{
+      path: '/calc',
+      name: 'Calc',
+      component: Calc
     }]
   } ]
 })
