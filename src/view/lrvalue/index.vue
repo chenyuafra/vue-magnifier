@@ -1,7 +1,16 @@
 <template>
   <div class="container">
-    <Left @leftv='changeva'></Left>
-    <Right :rightva="rightva"></Right>
+    <p>父子组件传值</p>
+    <div class="bigbox">
+      <div class="l">
+        <Left @leftv='changeva'></Left>
+      </div>
+      <div class="r">
+        <Right :rightva="rightva"></Right>
+      </div>
+    </div>
+
+
   </div>
 </template>
 <script>
@@ -35,4 +44,19 @@
   }
 </script>
 <style scoped>
+  .bigbox{
+    width: 500px;
+    height: 300px;
+    border: 5px solid #A9BFD6;
+    margin: 0 auto;
+    display: flex;
+  }
+  .bigbox .l{
+    flex: 1;
+    /* background-color: antiquewhite; */
+  }
+  .bigbox .r{
+    flex: 1;
+    /* background-color: teal; */
+  }
 </style>

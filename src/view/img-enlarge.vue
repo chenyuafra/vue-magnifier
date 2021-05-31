@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="page">
-      <p>demo</p>
+      <p>放大镜效果</p>
       <div v-for="item,i in imglist" :key="i">
         <img :src="item" alt="" @click="enlarge(i)">
       </div>
     </div>
-    <div class="mask" v-if="showbigimg">111</div>
+    <div class="mask" v-if="showbigimg"></div>
     <div class="imgbox" v-if="showbigimg">
       <div class="smallbox">
         <div class="movementbox">
@@ -15,6 +15,7 @@
           <P>框距离小图{{showboxTop+25}} ，{{showboxLeft+25}}</P>
           <P>框距离小图{{showboxTop+25}} ，{{showboxLeft+25}}</P>
           <P>大图距离显示区{{Magnifiedtop}} ，{{MagnifiedLeft}}</P>
+          <p @click="onclose()">关闭弹窗</p>
         </div>
       </div>
       <div class="bigbox">
@@ -83,21 +84,24 @@
       out(){
         // this.showbox=false
       },
+      onclose(){
+        this.showbigimg=false
+      }
     },
     mounted() {},
   }
 </script>
 <style scoped>
   .mask{width: 100%;height: 100%;background-color: rgba(0,0,0,0.5);position: fixed;top: 0;left: 0;bottom: 0;right: 0;}
-  .imgbox{width: 800px;height: 400px;display: flex;background-color: yellow;position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;}
-  .smallbox{height: 400px;flex: 1;background-color: antiquewhite;}
+  .imgbox{width: 800px;height: 400px;display: flex;background-color: #fff;position: absolute;top: 0;left: 0;bottom: 0;right: 0;margin: auto;}
+  .smallbox{height: 400px;flex: 1;}
   .smallbox img{max-width: 100%;max-height: 100%;}
   .movementbox{position: relative;}
-  .showbox{position: absolute;width: 50px;height: 50px;background-color: rgba(220,20,60);position: absolute;top: 0;left: 0;}
+  .showbox{position: absolute;width: 50px;height: 50px;position: absolute;top: 0;left: 0;border: 1px solid #7FFFD4;}
 
 
 
-  .bigbox{height: 100%;flex: 1;background-color: aquamarine;position: relative;overflow: hidden;}
+  .bigbox{height: 100%;flex: 1;position: relative;overflow: hidden;border: 1px solid #7FFFD4;}
   .bigbox img{width: 1000px;position: absolute;top: 0;left: 0;}
 
 </style>

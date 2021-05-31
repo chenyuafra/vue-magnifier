@@ -1,7 +1,8 @@
 <template>
   <div class="container">
-    <p>
-      <span v-for="item,i in page" @click="setvalue(item)">{{item}}</span>
+    点击这里：
+    <p style="margin-top: 20px;">
+      <span class="itembox" v-for="item,i in page" @click="setvalue(item)">{{item}}</span>
     </p>
   </div>
 </template>
@@ -30,4 +31,9 @@
   }
 </script>
 <style scoped>
+  .itembox{
+    padding: 10px;
+    border: 1px solid slategray;
+    cursor: pointer;
+  }
 </style>

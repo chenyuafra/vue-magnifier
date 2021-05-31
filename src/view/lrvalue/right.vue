@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <p style="background-color: #7FFFD4;width: 200px;height: 200px;">{{rightva}}</p>
+    这里接收数据：
+    <p style="margin-top: 20px;">
+    <span class="itembox">{{rightva}}</span></p>
   </div>
 </template>
 <script>
